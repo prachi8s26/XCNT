@@ -1,0 +1,5 @@
+APPROVAL_STATUS = {
+    'WAITING_FOR_APPROVAL': 0,
+    'APPROVED': 1,
+    'DECLINED': 2
+}
