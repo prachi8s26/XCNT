@@ -11,8 +11,7 @@ from .models import Expense
 def create_expense_entry(request):
     cashcog_request = requests.get('https://cashcog.xcnt.io/stream', params=request.GET, stream=True)
     for chunk in cashcog_request.iter_content(chunk_size=1024):
-        chunk_decode = chunk.decode('utf8').replace("'", '"')
-        cashcog_expense = json.loads(chunk_decode)
+        cashcog_expense = json.loads(chunk)
 
         Expense.objects.create(
             uuid=cashcog_expense["uuid"],
@@ -32,7 +31,7 @@ def get_all_the_records(request):
     expenses_json = json.loads(serialize_expense)
 
     context = {"users": expenses_json}
-    return render(request, "cashcog/index.html", context)
+    return render(request, "cashcog/show_expenses.html", context)
 
 
 def update_status(request):

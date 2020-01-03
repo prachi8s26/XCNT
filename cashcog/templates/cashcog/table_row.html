@@ -1,27 +1,29 @@
 {% for user in users %}
-<tr>
-     <td>{{ user.fields.uuid }}</td>
-     <td>{{ user.fields.description }}</td>
-     <td>{{ user.fields.created_at }}</td>
-     <td>{{ user.fields.amount }}</td>
-     <td>{{ user.fields.currency }}</td>
-     <td>{{ user.fields.employee_uuid}}</td>
-     <td>{{user.fields.employee_first_name}} {{user.fields.employee_last_name}}</td>
-     {% if user.fields.status == 0 %}
-       <td class="status">
-         <div class="dropdown">
-           <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Waiting For Approval
-             <span class="caret"></span>
-           </button>
-           <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-             <li role="presentation">
-               <a role="menuitem" tabindex="-1" href="#" value="1" data-uuid="{{user.fields.uuid}}">Approve</a></li>
-             <li role="presentation"><a role="menuitem" tabindex="-1" href="#" value="2" data-uuid="{{user.fields.uuid}}">Decline</a></li>
-           </ul>
-         </div>
-       </td>
-     {% else %}
-        <td></td>
-     {% endif %}
-</tr>
+    <tr id="{{ user.fields.uuid }}">
+        <td>{{ user.fields.uuid }}</td>
+        <td>{{ user.fields.description }}</td>
+        <td>{{ user.fields.created_at }}</td>
+        <td>{{ user.fields.amount }}&nbsp{{ user.fields.currency }}</td>
+        <td>{{ user.fields.employee_uuid}}</td>
+        <td>{{user.fields.employee_first_name}}&nbsp{{user.fields.employee_last_name}}</td>
+        {% if user.fields.status == 0 %}
+            <td class="status">
+                <div class="dropdown">
+                   <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Waiting For Approval
+                     <span class="caret"></span>
+                   </button>
+
+                   <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                     <li role="presentation">
+                       <a role="menuitem" tabindex="-1" href="#" value="1" data-uuid="{{user.fields.uuid}}">Approve</a></li>
+                     <li role="presentation"><a role="menuitem" tabindex="-1" href="#" value="2" data-uuid="{{user.fields.uuid}}">Decline</a></li>
+                   </ul>
+                </div>
+            </td>
+        {% elif user.fields.status == 1 %}
+            <td class="status">Approved</td>
+        {% else %}
+            <td class="status">Declined</td>
+        {% endif %}
+    </tr>
 {% endfor %}
