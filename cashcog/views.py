@@ -5,7 +5,7 @@ from django.core.serializers import serialize
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from .models import Expense, Employee
+from .models import Expense
 
 
 def create_expense_entry(request):
@@ -13,12 +13,6 @@ def create_expense_entry(request):
     for chunk in cashcog_request.iter_content(chunk_size=1024):
         chunk_decode = chunk.decode('utf8').replace("'", '"')
         cashcog_expense = json.loads(chunk_decode)
-
-        Employee.objects.create(
-            uuid=cashcog_expense["employee"]["uuid"],
-            first_name=cashcog_expense["employee"]["first_name"],
-            last_name=cashcog_expense["employee"]["last_name"]
-        )
 
         Expense.objects.create(
             uuid=cashcog_expense["uuid"],
@@ -33,15 +27,14 @@ def create_expense_entry(request):
 
 
 def get_all_the_records(request):
-    all_data = Expense.objects.all()
-    # waiting_for_approval_expenses = Expense.objects.filter(status=0)
-    data = serialize('json', all_data)
-    dataa = json.loads(data)
+    expenses = Expense.objects.all()
+    serialize_expense = serialize('json', expenses)
+    expenses_json = json.loads(serialize_expense)
 
-    act = {"users": dataa}
-    return render(request, "cashcog/index.html", act)
+    context = {"users": expenses_json}
+    return render(request, "cashcog/index.html", context)
 
 
 def update_status(request):
-    Expense.objects.filter(uuid=request.POST.get["uuid"]).update(status=request.GET["status"])
-    return HttpResponse(html="xyz")
+    Expense.objects.filter(uuid=request.POST["uuid"]).update(status=request.POST["status"])
+    return HttpResponse(status=200)
