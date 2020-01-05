@@ -3,9 +3,9 @@
         <td>{{ user.fields.uuid }}</td>
         <td>{{ user.fields.description }}</td>
         <td>{{ user.fields.created_at }}</td>
-        <td>{{ user.fields.amount }}&nbsp{{ user.fields.currency }}</td>
+        <td>{{ user.fields.amount }} {{ user.fields.currency }}</td>
         <td>{{ user.fields.employee_uuid}}</td>
-        <td>{{user.fields.employee_first_name}}&nbsp{{user.fields.employee_last_name}}</td>
+        <td>{{user.fields.employee_first_name}} {{user.fields.employee_last_name}}</td>
         {% if user.fields.status == 0 %}
             <td class="status">
                 <div class="dropdown">
