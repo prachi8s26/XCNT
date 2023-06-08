@@ -2,7 +2,7 @@
 
 ## Steps to setup Database
 1. Create a database in root user (You can also create a different user)
-
+test
 ```
 mysql -u root -p
 CREATE DATABASE cashcog;
